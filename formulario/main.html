@@ -12,6 +12,22 @@
         align-items: center;
       }
 
+      button {
+        padding: 10px;
+        display: block;
+        width: 100%;
+        background-color: olivedrab;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background-color: olive;
+      }
+
       #form [required]:valid {
         border: 2px solid green;
       }
@@ -43,6 +59,15 @@
           visibility: visible;
           opacity: 1;
         }
+      }
+      .table-format table {
+        margin: 0 auto;
+      }
+
+      th,
+      td {
+        border: solid olivedrab 2px;
+        padding: 20px;
       }
     </style>
     <title>Frontend</title>
@@ -96,13 +121,13 @@
           <legend for="genero">Elige tu género:</legend>
 
           <label for="masculino">masculino</label>
-          <input required type="checkbox" value="masculino" name="masculino" />
+          <input type="radio" value="masculino" name="genero" />
 
           <label for="femenino">femenino</label>
-          <input required type="checkbox" value="femenino" name="femenino" />
+          <input type="radio" value="femenino" name="genero" />
 
           <label for="otro">otro</label>
-          <input required type="checkbox" value="otro" name="otro" />
+          <input type="radio" value="otro" name="genero" />
         </div>
 
         <div class="container">
@@ -118,9 +143,21 @@
             data-pattern="^.{1,15}$"
           ></textarea>
         </div>
-        <button type="submit">Enviar</button>
+        <button>Enviar</button>
       </fieldset>
+      <div id="content"></div>
     </form>
+    <div class="table-format">
+      <table id="table">
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Correo</th>
+          <th>Edad</th>
+          <th>Género</th>
+        </tr>
+      </table>
+    </div>
 
     <script src="./main.js"></script>
   </body>
