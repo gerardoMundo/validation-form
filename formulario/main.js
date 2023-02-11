@@ -1,5 +1,6 @@
 const content = document.getElementById("content");
 const form = document.getElementById("form");
+const deleteBtn = document.getElementById("delete");
 
 const formValidation = () => {
   const inputs = document.querySelectorAll("form [required]");
@@ -37,28 +38,71 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   let dataForm = new FormData(form); // valores del formulario
+  let formObj = convertFormdataToObj(dataForm);
 
-  const insertDataRows = (dataForm) => {
-    let table = document.getElementById("table"); // tabla donde se renderiza la data
-    let newRow = table.insertRow(-1);
-
-    let newNameCell = newRow.insertCell(0);
-    newNameCell.textContent = dataForm.get("nombre");
-
-    let newLastNameCell = newRow.insertCell(1);
-    newLastNameCell.textContent = dataForm.get("apellido");
-
-    let newEmailCell = newRow.insertCell(2);
-    newEmailCell.textContent = dataForm.get("correo");
-
-    let newOptionsCell = newRow.insertCell(3);
-    newOptionsCell.textContent = dataForm.get("opciones");
-
-    let newGenderCell = newRow.insertCell(4);
-    newGenderCell.textContent = dataForm.get("genero");
-  };
-
-  insertDataRows(dataForm);
+  setDataObj(formObj);
+  insertDataRows(formObj);
+  form.reset();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  let registeredData = JSON.parse(localStorage.getItem("item")) || [];
+
+  registeredData.forEach((registry) => {
+    insertDataRows(registry);
+  });
+});
+
+deleteBtn.addEventListener("click", () => {
+  localStorage.removeItem("item");
+  location.reload();
+});
+
+function convertFormdataToObj(dataForm) {
+  let nombre = dataForm.get("nombre");
+  let apellido = dataForm.get("apellido");
+  let correo = dataForm.get("correo");
+  let opciones = dataForm.get("opciones");
+  let genero = dataForm.get("genero");
+
+  return {
+    nombre,
+    apellido,
+    correo,
+    opciones,
+    genero,
+  };
+}
+
+function setDataObj(formObj) {
+  let arrObjs = JSON.parse(localStorage.getItem("item")) || [];
+  arrObjs.push(formObj);
+
+  let newObj = JSON.stringify(arrObjs);
+  localStorage.setItem("item", newObj);
+}
+
+const insertDataRows = (dataForm) => {
+  let table = document.getElementById("table"); // tabla donde se renderiza la data
+  let newRow = table.insertRow(-1);
+
+  // let gottenObj = localStorage.getItem("item");
+  // let userData = JSON.parse(gottenObj);
+
+  let newNameCell = newRow.insertCell(0);
+  newNameCell.textContent = dataForm["nombre"];
+
+  let newLastNameCell = newRow.insertCell(1);
+  newLastNameCell.textContent = dataForm["apellido"];
+
+  let newEmailCell = newRow.insertCell(2);
+  newEmailCell.textContent = dataForm["correo"];
+
+  let newOptionsCell = newRow.insertCell(3);
+  newOptionsCell.textContent = dataForm["opciones"];
+
+  let newGenderCell = newRow.insertCell(4);
+  newGenderCell.textContent = dataForm["genero"];
+};
 
 formValidation();
